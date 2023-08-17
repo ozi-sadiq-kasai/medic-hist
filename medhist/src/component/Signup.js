@@ -10,6 +10,7 @@ const Signup = () => {
 
  const handleChangeEmail=(e)=>{
   setEmail(e.target.value)
+
  }
   const handleChangePassword=(e)=>{
   setPassword(e.target.value)

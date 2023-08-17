@@ -12,25 +12,27 @@ const Customer = () => {
   const getCustomers= async()=>{
    const data = await getDocs(usersCollectionRef)
    setCustomer(data.docs.map((doc) =>({...doc.data(), id:doc.id})))
-   console.log(data)
   }
   getCustomers()
  },[])
 
   return (
     <div>
-     <h1>Customer Details</h1>
+     <h1>Customer Details</h1>   
      {customer.map((customer) =>{
+      const{fname,lname,age,phone,addy,kfName,klName,kphone}=customer
       return<>
-      <p>{customer.age}</p>
-      <p>{customer.firstName}</p>
-      <p>{customer.address}</p>
-      <p>{customer.kinFirstName}</p>
-      <p>{customer.kinLastName}</p>
-      <p>{customer.kinPhoneNumber}</p>
-      <p>{customer.lastName}</p>
+      <p>{fname}</p>
+      <p>{lname}</p>
+      <p>{age}</p>
+      <p>{phone}</p>
+      <p>{addy}</p>
+      <p>{kfName}</p>
+      <p>{klName}</p>
+      <p>{kphone}</p>
       </>
      })}
+
     </div>
   )
 }
