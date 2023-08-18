@@ -6,15 +6,35 @@ import { useState } from "react"
 const Signup = () => {
  const [email,setEmail] = useState('')
  const [password,setPassword] = useState('')
+ const [emailError,setEmailError] = useState("")
+ const [passwordError,setPasswordError] = useState("")
+
+ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const passwordRegex = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
+
 
  console.log(auth?.currentUser?.email)
 
  const handleChangeEmail=(e)=>{
-  setEmail(e.target.value)
+  const newEmail = e.target.value
+  setEmail(newEmail)
+  if(!emailRegex.test(newEmail)){
+   setEmailError("Invalid email address")
+  }else{
+   setEmailError("")
+  }
 
  }
   const handleChangePassword=(e)=>{
-  setPassword(e.target.value)
+   const newPassword = e.target.value
+   setPassword(newPassword)
+   if(!passwordRegex.test(newPassword)){
+    setPasswordError(
+     "Password must be at least 8 characters long and contain a mix of lowercase and numbers."
+    )
+   }else {
+      setPasswordError("");
+    }
  }
 
  const signin = async() =>{
@@ -43,20 +63,21 @@ const Signup = () => {
  }
 
   return (
-<main className="w-screen h-screen flex justify-center items-center">
-  <div className="border border-gray-100 w-4/5 p-4 flex flex-col items-center py-28 shadow-lg sm:w-screen lg:w-3/5">
-    <h1 className="font-roboto font-bold text-3xl p-1 text-green-300">Sign In</h1>
-    <input className="outline-0 mt-3 mb-4 border-b-2 border-gray-100 w-2/5" type="email" placeholder="Email" onChange={handleChangeEmail} />
-    <input className="outline-0 mt-3 mb-4 border-b-2 border-gray-100 w-2/5" type="password" placeholder="Password" onChange={handleChangePassword} />
+<main>
+   <form>
+    <h1>Sign In</h1>
+    <input type="email" placeholder="Email" onChange={handleChangeEmail} value={email} />
+    {emailError && <p>{emailError}</p>}
 
-    <button className="outline-0 text-slate-300 py-1 px-14 border mb-7 mt-5"onClick={signin}>Sign In with Email</button>
-    <div className="outline-0 flex items-center py-1 px-10 border text-slate-300">
+    <input type="password" placeholder="Password" onChange={handleChangePassword} value={password}/>
+    {passwordError && <p>{passwordError}</p>}
+
+    <button onClick={signin} disabled={emailError || passwordError}>Sign In with Email</button>
+    <div>
      <FcGoogle /><button onClick={signinWithGoogle}>Sign In With Google</button>
     </div>
-   
-
-    <button className="outline-0 py-1 px-10 bg-red-700 mt-8 text-slate-300 rounded-sm"onClick={logout}>Sign Out</button>
-  </div>
+    <button onClick={logout}>Sign Out</button>
+   </form>
 </main>
   )
 }
